@@ -3,6 +3,10 @@ import Search from '../components/search';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 
+if (process.env.NODE_ENV === 'development') {
+  require('../miragejs/server').makeServer();
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className="bg-white">
@@ -82,7 +86,6 @@ export default function App({ Component, pageProps }: AppProps) {
               </a>
             </div>
           </nav>
-          <Search />
         </div>
       </header>
       {/* <Cart /> */}
