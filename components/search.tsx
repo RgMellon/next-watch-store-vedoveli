@@ -12,8 +12,12 @@ export default function Search({ doSearch }: SearchProps) {
     doSearch(term);
   }
 
-  function handleChange(event) {
+  function inputHandler(event) {
     setTerm(event.target.value);
+
+    if (event.target.value === '') {
+      doSearch('');
+    }
   }
 
   return (
@@ -40,7 +44,7 @@ export default function Search({ doSearch }: SearchProps) {
         role="textbox"
         name="text-search"
         aria-label="text-search"
-        onChange={handleChange}
+        onInput={inputHandler}
         value={term}
         type="search"
         placeholder="Search"

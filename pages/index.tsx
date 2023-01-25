@@ -1,7 +1,7 @@
 import { useFetchProducts } from '../hooks/use-fetch-products';
-import ProductCard, { ProdctItem } from '../components/product-card';
+import ProductCard from '../components/product-card';
 import Search from '../components/search';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
   const { error, products } = useFetchProducts();
