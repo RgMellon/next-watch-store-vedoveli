@@ -7,11 +7,18 @@ type SearchProps = {
 export default function Search({ doSearch }: SearchProps) {
   const [term, setTerm] = useState('');
 
+  function handleSearch(event) {
+    event.preventDefault();
+    doSearch(term);
+  }
+
+  function handleChange(event) {
+    setTerm(event.target.value);
+  }
+
   return (
     <form
-      onSubmit={() => {
-        doSearch(term);
-      }}
+      onSubmit={handleSearch}
       aria-label="search-form"
       role="form"
       data-testid="search"
@@ -33,7 +40,7 @@ export default function Search({ doSearch }: SearchProps) {
         role="textbox"
         name="text-search"
         aria-label="text-search"
-        onChange={(event) => setTerm(event.target.value)}
+        onChange={handleChange}
         value={term}
         type="search"
         placeholder="Search"
