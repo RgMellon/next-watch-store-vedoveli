@@ -20,11 +20,13 @@
     "axios": "^1.2.3",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
+    "immer": "^9.0.19",
     "miragejs": "^0.1.41",
     "next": "13.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

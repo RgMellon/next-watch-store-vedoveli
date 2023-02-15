@@ -1,7 +1,7 @@
 import ProductList from '../pages';
 import '@testing-library/jest-dom';
 import { makeServer } from '../miragejs/server';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
 import { Response } from 'miragejs';
 import userEvent from '@testing-library/user-event';
 
@@ -60,7 +60,7 @@ describe('<ProductList />', () => {
     });
   });
 
-  fit('should filter the product list when a search is performed', async () => {
+  it('should filter the product list when a search is performed', async () => {
     const searchTerm = 'Relógio bonito';
 
     server.createList('product', 2);
@@ -83,6 +83,52 @@ describe('<ProductList />', () => {
 
     await waitFor(() => {
       expect(getAllByTestId('product-card')).toHaveLength(1);
+    });
+  });
+
+  it('should display the total quantity of products', async () => {
+    server.createList('product', 10);
+
+    const { getByText } = makeSut();
+
+    await waitFor(() => {
+      expect(getByText(/10 Products/i)).toBeInTheDocument();
+    });
+  });
+
+  it('should display product (singular) when there is only 1 product', async () => {
+    server.create('product');
+
+    const { getByText } = makeSut();
+
+    await waitFor(() => {
+      expect(getByText(/1 Product$/i)).toBeInTheDocument();
+    });
+  });
+
+  it('should display proper quantity when list is filtered', async () => {
+    const searchTerm = 'Relógio bonito';
+
+    server.createList('product', 2);
+
+    server.create('product', {
+      title: searchTerm,
+    });
+
+    const { getAllByTestId, getByRole, getByText } = makeSut();
+
+    await waitFor(() => {
+      expect(getByText(/3 Products/i)).toBeInTheDocument();
+    });
+
+    const form = getByRole('form');
+    const input = getByRole('textbox', { name: 'text-search' });
+
+    await userEvent.type(input, searchTerm);
+    await fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(getByText(/1 Product$/i)).toBeInTheDocument();
     });
   });
 });

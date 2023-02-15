@@ -3,6 +3,7 @@ export type ProdctItem = {
   price: string;
   image: string;
   id?: number;
+  quantity?: number;
 };
 
 type ProductProps = {

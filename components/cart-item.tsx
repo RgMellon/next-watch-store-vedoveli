@@ -1,20 +1,12 @@
-import { useState } from 'react';
 import { ProdctItem } from './product-card';
+import { useCartStore } from '../store/cart';
 
 type ProductProps = {
   product: ProdctItem;
 };
 
 export default function CartItem({ product }: ProductProps) {
-  const [quantity, setQuantity] = useState(1);
-
-  function decrease() {
-    setQuantity(quantity > 0 ? quantity - 1 : 0);
-  }
-
-  function increase() {
-    setQuantity(quantity + 1);
-  }
+  const { remove, decrease, increase } = useCartStore((store) => store.actions);
 
   return (
     <div data-testid="cart-item" className="flex justify-between mt-6">
@@ -27,10 +19,21 @@ export default function CartItem({ product }: ProductProps) {
         />
         <div className="mx-3">
           <h3 className="text-sm text-gray-600">{product.title}</h3>
+          <button
+            onClick={() => {
+              remove(product);
+            }}
+          >
+            remove
+          </button>
           <div className="flex items-center mt-2">
             <button
+              data-testid="decrease-button"
+              aria-label="decrease-button"
               className="text-gray-500 focus:outline-none focus:text-gray-600"
-              onClick={decrease}
+              onClick={() => {
+                decrease(product);
+              }}
             >
               <svg
                 className="h-5 w-5"
@@ -45,10 +48,14 @@ export default function CartItem({ product }: ProductProps) {
               </svg>
             </button>
             <span data-testid="quantity" className="text-gray-700 mx-2">
-              {quantity}
+              {product.quantity}
             </span>
             <button
-              onClick={increase}
+              data-testid="increase-button"
+              aria-label="increase-button"
+              onClick={() => {
+                increase(product);
+              }}
               className="text-gray-500 focus:outline-none focus:text-gray-600"
             >
               <svg

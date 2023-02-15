@@ -18,6 +18,7 @@ const customJestConfig = {
     '<rootDir>/components/**/*.tsx',
     '<rootDir>/pages/**/*.tsx',
     '<rootDir>/hooks/**/*.ts',
+    '<rootDir>/store/**/*.ts',
   ],
 };
 

@@ -1,13 +1,15 @@
 import Cart from '../components/cart';
-import Search from '../components/search';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import { useCartStore } from '../store/cart';
 
 if (process.env.NODE_ENV === 'development') {
   require('../miragejs/server').makeServer();
 }
 
 export default function App({ Component, pageProps }: AppProps) {
+  const toggle = useCartStore((store) => store.actions.toggle);
+
   return (
     <div className="bg-white">
       <header>
@@ -37,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </div>
             <div className="w-full text-gray-700 md:text-center text-2xl font-semibold">Brand</div>
             <div className="flex items-center justify-end w-full">
-              <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0">
+              <button className="text-gray-600 focus:outline-none mx-4 sm:mx-0" onClick={toggle}>
                 <svg
                   className="h-5 w-5"
                   fill="none"
@@ -88,7 +90,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </nav>
         </div>
       </header>
-      {/* <Cart /> */}
+      <Cart />
       <Component {...pageProps} />
       <footer className="bg-gray-200">
         <div className="container mx-auto px-6 py-3 flex justify-between items-center">
